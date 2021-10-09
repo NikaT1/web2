@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script type="text/javascript" src="<%= request.getContextPath() %>/js/valid.js"></script>
     <style>
         body {
             color: #6d747f;
@@ -201,13 +202,13 @@
             font-size: 20px;
         }
 
-        #x-table {
+        #r-table {
             padding: 0;
             margin: 0;
             table-layout: fixed;
         }
 
-        #selectR {
+        #selectY {
             font-family: cursive;
         }
 
@@ -294,7 +295,7 @@
                         <table id="variant-table" class="variant-table">
                             <tr>
                                 <td>
-                                    <div>Вариант 33017</div>
+                                    <div>Вариант 33333</div>
                                 </td>
                             </tr>
                         </table>
@@ -313,39 +314,39 @@
                                 <td>
                                     <svg width="210" height="210" xmlns="http://www.w3.org/2000/svg">
                                         <polygon points="60,100 100,140 100,100" class="svg-figure-color"
-                                                 stroke-width="2"/>
+                                                 stroke-width="2"></polygon>
                                         <polygon points="100,20 180,20 180,100 100,100" class="svg-figure-color"
-                                                 stroke-width="2"/>
+                                                 stroke-width="2"></polygon>
                                         <path d="M100,100 v-80 a80,80 0 0,0-80,80z" class="svg-figure-color"
-                                              stroke-width="2"/>
+                                              stroke-width="2"></path>
                                         <line x1="100" y1="0" x2="100" y2="200" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="0" y1="100" x2="200" y2="100" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="97" y1="60" x2="103" y2="60" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="97" y1="20" x2="103" y2="20" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="97" y1="140" x2="103" y2="140" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="97" y1="180" x2="103" y2="180" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="60" y1="97" x2="60" y2="103" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="20" y1="97" x2="20" y2="103" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="140" y1="97" x2="140" y2="103" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="180" y1="97" x2="180" y2="103" stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="100" y1="0" x2="95" y2=10 stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="100" y1="0" x2="105" y2=10 stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="200" y1="100" x2="190" y2=105 stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <line x1="200" y1="100" x2="190" y2=95 stroke-width="2"
-                                              class="svg-line-color"/>
+                                              class="svg-line-color"></line>
                                         <text x="30" y="92" font-size="15" class="svg-text">-R/2</text>
                                         <text x="6" y="92" font-size="15" class="svg-text">-R</text>
                                         <text x="107" y="30" font-size="15" class="svg-text">R/2</text>
@@ -373,6 +374,14 @@
                                                 <th id="R" class="result-style">R</th>
                                                 <th id="flag" class="result-style">Результат</th>
                                             </tr>
+                                            <tr>
+                                                <td><%=session.getAttribute("TimeLast")%></td>
+                                                <td><%=session.getAttribute("TimeLast")%></td>
+                                                <td><%=session.getAttribute("xLast")%></td>
+                                                <td><%=session.getAttribute("yLast")%></td>
+                                                <td><%=session.getAttribute("rLast")%></td>
+                                                <td><%=session.getAttribute("resultLast")%></td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </td>
@@ -380,96 +389,76 @@
                             <tr>
                                 <td colspan="2">
                                     <table id="numbers-table" class="background">
-                                        <tr class="numbers">
+                                        <tr>
                                             <td>X:</td>
-                                            <td colspan="6">
-                                                <table id="x-table">
+                                            <td>
+                                                <input type="text" id="inputX" maxlength="17" autocomplete="off"
+                                                       placeholder="Введите число: (-5; 5)">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Y:</td>
+                                            <td ><select size="1" id="selectY" autofocus>
+                                                <option value="-2" autofocus>-2</option>
+                                                <option value="-1.5">-1.5</option>
+                                                <option value="-1">-1</option>
+                                                <option value="-0.5">-0.5</option>
+                                                <option value="0">0</option>
+                                                <option value="0.5">0.5</option>
+                                                <option value="1">1</option>
+                                                <option value="1.5">1.5</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="numbers">
+                                            <td>R:</td>
+                                            <td>
+                                                <table id="r-table">
                                                     <tr>
                                                         <td>
-                                                            <label> <input name="xRadio" id="defaultRadio" type="radio"
-                                                                           value="-3"
+                                                            <label> <input name="rCheckBox" id="defaultBox" type="checkbox"
+                                                                           value="1"
                                                                            checked>
-                                                                <p>-3</p>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="xRadio" type="radio" value="-2">
-                                                                <p>-2</p>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="xRadio" type="radio" value="-1">
-                                                                <p>-1</p>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="xRadio" type="radio" value="0">
-                                                                <p>0</p>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="xRadio" type="radio" value="1">
                                                                 <p>1</p>
                                                             </label>
                                                         </td>
                                                         <td>
                                                             <label>
-                                                                <input name="xRadio" type="radio" value="2">
+                                                                <input name="rCheckBox" type="checkbox" value="1.5">
+                                                                <p>1.5</p>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label>
+                                                                <input name="rCheckBox" type="checkbox" value="2">
                                                                 <p>2</p>
                                                             </label>
                                                         </td>
                                                         <td>
                                                             <label>
-                                                                <input name="xRadio" type="radio" value="3">
+                                                                <input name="rCheckBox" type="checkbox" value="2.5">
+                                                                <p>2.5</p>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label>
+                                                                <input name="rCheckBox" type="checkbox" value="3">
                                                                 <p>3</p>
                                                             </label>
                                                         </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="xRadio" type="radio" value="4">
-                                                                <p>4</p>
-                                                            </label>
+                                                        <td colspan="2">
+                                                            <button class="button" id="submit">
+                                                                результат
+                                                            </button>
                                                         </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="xRadio" type="radio" value="5">
-                                                                <p>5</p>
-                                                            </label>
+                                                        <td colspan="3">
+                                                            <button class="button" id="reset">
+                                                                очистить
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Y:</td>
-                                            <td>
-                                                <input type="text" id="inputY" maxlength="17" autocomplete="off"
-                                                       placeholder="Введите число от -5 до 3">
-                                            </td>
-                                            <td colspan="2" rowspan="2">
-                                                <button class="button" id="submit">
-                                                    результат
-                                                </button>
-                                            </td>
-                                            <td colspan="3" rowspan="2">
-                                                <button class="button" id="reset">
-                                                    очистить
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>R:</td>
-                                            <td colspan="4"><select size="1" id="selectR" autofocus>
-                                                <option value="1" autofocus>1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
                                             </td>
                                         </tr>
                                     </table>
