@@ -1,3 +1,5 @@
+package servlets;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,15 +14,17 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("x") != null && req.getParameter("y") != null && req.getParameter("r") != null) {
-            getServletContext().getNamedDispatcher("areaCheck").forward(req, resp);
-        } else if (req.getParameter("clearTable") != null) {
-            getServletContext().getNamedDispatcher("clearTable").forward(req, resp);
+            getServletContext().getRequestDispatcher("/areaCheck").forward(req, resp);
+        } else if (req.getParameter("command") != null && req.getParameter("command").equals("clear")) {
+            getServletContext().getRequestDispatcher("/clearTable").forward(req, resp);
+        } else if (req.getParameter("command") != null && req.getParameter("command").equals("color")) {
+            getServletContext().getRequestDispatcher("/changeColorServlet").forward(req, resp);
         } else {
-            getServletContext().getNamedDispatcher("/index.js").forward(req, resp);
+            getServletContext().getRequestDispatcher("/index.js").forward(req, resp);
         }
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getNamedDispatcher("/index.js").forward(req, resp);
+        getServletContext().getRequestDispatcher("/index.js").forward(req, resp);
     }
 }

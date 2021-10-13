@@ -1,8 +1,13 @@
+<%@ page import="data.DataFromTable" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/valid.js"></script>
+    <script type="text/javascript" src="<%= request.getContextPath() %>/js/jQuery.js"></script>
     <style>
         body {
             color: #6d747f;
@@ -28,6 +33,7 @@
 
         #body-table {
             table-layout: fixed;
+            height: 80%;
         }
 
         #imagine {
@@ -200,6 +206,8 @@
             text-align: center;
             border: 4px solid rgba(217, 185, 230, 0.6);
             font-size: 20px;
+            width: 100%;
+            table-layout: fixed;
         }
 
         #r-table {
@@ -227,12 +235,16 @@
         #result-div {
             overflow-x: auto;
             height: 300px;
-            width: 100%;
         }
 
         .coord {
             stroke: rgb(122, 3, 171);
             fill: rgb(122, 3, 171);
+        }
+
+        .old-coord {
+            stroke: rgba(206, 73, 229, 0.7);
+            fill: rgba(206, 73, 229, 0.7);
         }
 
         .dark-coord {
@@ -241,7 +253,7 @@
         }
 
         #result-td {
-            width: 50%;
+            width: 100%;
         }
 
         .svg-line-color {
@@ -312,53 +324,76 @@
                         <table class="background" id="background-table">
                             <tr>
                                 <td>
-                                    <svg width="210" height="210" xmlns="http://www.w3.org/2000/svg">
-                                        <polygon points="60,100 100,140 100,100" class="svg-figure-color"
-                                                 stroke-width="2"></polygon>
-                                        <polygon points="100,20 180,20 180,100 100,100" class="svg-figure-color"
-                                                 stroke-width="2"></polygon>
-                                        <path d="M100,100 v-80 a80,80 0 0,0-80,80z" class="svg-figure-color"
-                                              stroke-width="2"></path>
-                                        <line x1="100" y1="0" x2="100" y2="200" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="0" y1="100" x2="200" y2="100" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="97" y1="60" x2="103" y2="60" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="97" y1="20" x2="103" y2="20" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="97" y1="140" x2="103" y2="140" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="97" y1="180" x2="103" y2="180" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="60" y1="97" x2="60" y2="103" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="20" y1="97" x2="20" y2="103" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="140" y1="97" x2="140" y2="103" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="180" y1="97" x2="180" y2="103" stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="100" y1="0" x2="95" y2=10 stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="100" y1="0" x2="105" y2=10 stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="200" y1="100" x2="190" y2=105 stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <line x1="200" y1="100" x2="190" y2=95 stroke-width="2"
-                                              class="svg-line-color"></line>
-                                        <text x="30" y="92" font-size="15" class="svg-text">-R/2</text>
-                                        <text x="6" y="92" font-size="15" class="svg-text">-R</text>
-                                        <text x="107" y="30" font-size="15" class="svg-text">R/2</text>
-                                        <text x="107" y="70" font-size="15" class="svg-text">R</text>
-                                        <text x="110" y="10" font-size="15" class="svg-text">y</text>
-                                        <text x="130" y="92" font-size="15" class="svg-text">R/2</text>
-                                        <text x="170" y="92" font-size="15" class="svg-text">R</text>
-                                        <text x="190" y="92" font-size="15" class="svg-text">x</text>
-                                        <text x="107" y="140" font-size="15" class="svg-text">-R/2</text>
-                                        <text x="107" y="180" font-size="15" class="svg-text">-R</text>
-                                        <circle id="coord" class="coord" r="3" cx="110" cy="90"></circle>
-                                    </svg>
+                                    <div id="svg-picture">
+                                        <svg id = "svg" width="210" height="210" xmlns="http://www.w3.org/2000/svg">
+                                            <polygon points="180,100 100,140 100,100" class="svg-figure-color"
+                                                     stroke-width="2"></polygon>
+                                            <polygon points="100,20 180,20 180,100 100,100" class="svg-figure-color"
+                                                     stroke-width="2"></polygon>
+                                            <path d="M100,100 v-80 a80,80 0 0,0-80,80z" class="svg-figure-color"
+                                                  stroke-width="2"></path>
+                                            <line x1="100" y1="0" x2="100" y2="200" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="0" y1="100" x2="200" y2="100" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="97" y1="60" x2="103" y2="60" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="97" y1="20" x2="103" y2="20" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="97" y1="140" x2="103" y2="140" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="97" y1="180" x2="103" y2="180" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="60" y1="97" x2="60" y2="103" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="20" y1="97" x2="20" y2="103" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="140" y1="97" x2="140" y2="103" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="180" y1="97" x2="180" y2="103" stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="100" y1="0" x2="95" y2=10 stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="100" y1="0" x2="105" y2=10 stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="200" y1="100" x2="190" y2=105 stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <line x1="200" y1="100" x2="190" y2=95 stroke-width="2"
+                                                  class="svg-line-color"></line>
+                                            <text x="30" y="92" font-size="15" class="svg-text">-R/2</text>
+                                            <text x="6" y="92" font-size="15" class="svg-text">-R</text>
+                                            <text x="107" y="30" font-size="15" class="svg-text">R</text>
+                                            <text x="107" y="70" font-size="15" class="svg-text">R/2</text>
+                                            <text x="110" y="10" font-size="15" class="svg-text">y</text>
+                                            <text x="130" y="92" font-size="15" class="svg-text">R/2</text>
+                                            <text x="170" y="92" font-size="15" class="svg-text">R</text>
+                                            <text x="190" y="92" font-size="15" class="svg-text">x</text>
+                                            <text x="107" y="140" font-size="15" class="svg-text">-R/2</text>
+                                            <text x="107" y="180" font-size="15" class="svg-text">-R</text>
+                                            <%
+                                                ArrayList<DataFromTable> arrayList;
+                                                if (session.getAttribute("resultData") != null) {
+                                                    arrayList = (ArrayList<DataFromTable>) session.getAttribute("resultData");
+                                                    double r = arrayList.get(arrayList.size()-1).getR();
+                                                    for (DataFromTable dataFromTable : arrayList) {
+                                                        if (dataFromTable.getIsValid()) {
+                                                            String classCoord = "coord";
+                                                            if (dataFromTable.getR() != r) classCoord = "old-coord";
+                                            %>
+                                            <circle class="<%=classCoord%>" r="3"
+                                                    cx="<%=80 * dataFromTable.getX()/r + 100%>"
+                                                    cy="<%=-80 * dataFromTable.getY()/r + 100%>"
+                                                    data-x="<%=dataFromTable.getX()%>"
+                                                    data-y="<%=dataFromTable.getY()%>"
+                                                    data-r="<%=dataFromTable.getR()%>">
+                                            </circle>
+                                            <%
+                                                        }
+                                                    }
+                                                }
+                                            %>
+                                        </svg>
+                                    </div>
                                 </td>
                                 <td>
                                     <img id="imagine3" class="imagine3" src="images/pic3.png" alt="Милый хомячок"/>
@@ -374,40 +409,73 @@
                                                 <th id="R" class="result-style">R</th>
                                                 <th id="flag" class="result-style">Результат</th>
                                             </tr>
+                                            <%
+                                                if (session.getAttribute("resultData") != null) {
+                                                    arrayList = (ArrayList<DataFromTable>) session.getAttribute("resultData");
+                                                    for (DataFromTable dataFromTable : arrayList) {
+                                                        if (dataFromTable.getIsValid()) {
+                                            %>
                                             <tr>
-                                                <td><%=session.getAttribute("TimeLast")%></td>
-                                                <td><%=session.getAttribute("TimeLast")%></td>
-                                                <td><%=session.getAttribute("xLast")%></td>
-                                                <td><%=session.getAttribute("yLast")%></td>
-                                                <td><%=session.getAttribute("rLast")%></td>
-                                                <td><%=session.getAttribute("resultLast")%></td>
+                                                <td><%=dataFromTable.getTime()%>
+                                                </td>
+                                                <td><%=dataFromTable.getScripTime()%>
+                                                </td>
+                                                <td><%=dataFromTable.getX()%>
+                                                </td>
+                                                <td><%=dataFromTable.getY()%>
+                                                </td>
+                                                <td><%=dataFromTable.getR()%>
+                                                </td>
+                                                <td><%=dataFromTable.getAnswer()%>
+                                                </td>
                                             </tr>
+                                            <%
+                                                        }
+                                                    }
+                                                } else arrayList = new ArrayList<>();
+                                            %>
                                         </table>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
+                                <%
+                                    String x = "";
+                                    double y = -2.0;
+                                    double r = 1;
+                                    if (arrayList.size() > 0) {
+                                        DataFromTable result = arrayList.get(arrayList.size() - 1);
+                                        x = String.valueOf(result.getX());
+                                        y = result.getY();
+                                        r = result.getR();
+                                    }
+
+                                %>
                                 <td colspan="2">
                                     <table id="numbers-table" class="background">
                                         <tr>
                                             <td>X:</td>
                                             <td>
                                                 <input type="text" id="inputX" maxlength="17" autocomplete="off"
-                                                       placeholder="Введите число: (-5; 5)">
+                                                       placeholder="Введите число: (-5; 5)" value="<%=x%>">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Y:</td>
-                                            <td ><select size="1" id="selectY" autofocus>
-                                                <option value="-2" autofocus>-2</option>
-                                                <option value="-1.5">-1.5</option>
-                                                <option value="-1">-1</option>
-                                                <option value="-0.5">-0.5</option>
-                                                <option value="0">0</option>
-                                                <option value="0.5">0.5</option>
-                                                <option value="1">1</option>
-                                                <option value="1.5">1.5</option>
-                                                <option value="2">2</option>
+                                            <td><select size="1" id="selectY">
+                                                <% List<Double> arrayY = Arrays.asList(-2.0, -1.5, -1.0, -0.5, -0d, 0.5, 1.0, 1.5, 2.0);
+                                                    for (double value : arrayY) {
+                                                        if (y == value) {%>
+                                                <option value="<%=value%>" selected><%=value%>
+                                                </option>
+                                                <%
+                                                } else {%>
+                                                <option value="<%=value%>"><%=value%>
+                                                </option>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
                                             </select>
                                             </td>
                                         </tr>
@@ -416,37 +484,31 @@
                                             <td>
                                                 <table id="r-table">
                                                     <tr>
+                                                        <% List<Double> arrayR = Arrays.asList(1.0, 1.5, 2.0, 2.5, 3.0);
+                                                            for (double value : arrayR) {
+                                                                if (r == value) {%>
                                                         <td>
-                                                            <label> <input name="rCheckBox" id="defaultBox" type="checkbox"
-                                                                           value="1"
+                                                            <label> <input name="rCheckBox" id="defaultBox"
+                                                                           type="checkbox"
+                                                                           value="<%=value%>"
                                                                            checked>
-                                                                <p>1</p>
+                                                                <p><%=value%>
+                                                                </p>
                                                             </label>
                                                         </td>
+                                                        <%} else {%>
                                                         <td>
                                                             <label>
-                                                                <input name="rCheckBox" type="checkbox" value="1.5">
-                                                                <p>1.5</p>
+                                                                <input name="rCheckBox" type="checkbox"
+                                                                       value="<%=value%>">
+                                                                <p><%=value%>
+                                                                </p>
                                                             </label>
                                                         </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="rCheckBox" type="checkbox" value="2">
-                                                                <p>2</p>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="rCheckBox" type="checkbox" value="2.5">
-                                                                <p>2.5</p>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <label>
-                                                                <input name="rCheckBox" type="checkbox" value="3">
-                                                                <p>3</p>
-                                                            </label>
-                                                        </td>
+                                                        <%
+                                                                }
+                                                            }
+                                                        %>
                                                         <td colspan="2">
                                                             <button class="button" id="submit">
                                                                 результат
