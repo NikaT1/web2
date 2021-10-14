@@ -2,10 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let param_x;
     let param_y;
     let param_r;
-    let timeZone = new Date();
 
     function sendRequest(command, args) {
-        alert(args);
         $.ajax({
             type: 'GET',
             url: 'controller',
@@ -20,41 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert("Проверка на Сервер не прошла");
             }
         });
-    }
-
-    function makeLight() {
-        document.querySelector("body").classList.remove('dark-body');
-        document.querySelector("#background-tr").classList.remove('background-with-dark-shadow');
-        document.querySelector("#background-table").classList.remove('dark-background');
-        document.querySelector("#numbers-table").classList.remove('dark-background');
-        document.querySelector("#result-td").classList.remove('dark-background');
-        document.querySelector("#variant-table").classList.remove('dark-variant-table');
-        document.querySelector("#name-table").classList.remove('dark-name-table');
-        document.querySelector("#body-table").classList.remove('dark-body-table');
-        document.getElementById("imagine3").src = "images/pic3.png";
-        document.querySelector("#imagine3").classList.remove("dark-imagine3");
-        document.querySelectorAll("line").forEach(line => line.classList.remove("dark-svg-line-color"));
-        document.querySelector("path").classList.remove("dark-svg-figure-color");
-        document.querySelector(".coord").classList.remove("dark-coord");
-        document.querySelectorAll("text").forEach(text => text.classList.remove("dark-svg-text"));
-        document.querySelectorAll("polygon").forEach(polygon => polygon.classList.remove("dark-svg-figure-color"));
-    }
-
-    function makeDark() {
-        document.querySelector("body").classList.add('dark-body');
-        document.querySelector("tr[class='background-with-shadow']").classList.add('background-with-dark-shadow');
-        document.querySelectorAll("table[class='background']").forEach(table => table.classList.add('dark-background'));
-        document.querySelector("td[class='background']").classList.add('dark-background');
-        document.querySelector("#variant-table").classList.add('dark-variant-table');
-        document.querySelector("#name-table").classList.add('dark-name-table');
-        document.querySelector("#body-table").classList.add('dark-body-table');
-        document.getElementById("imagine3").src = "images/dark-pic3.png";
-        document.querySelector("#imagine3").classList.add("dark-imagine3");
-        document.querySelector("path").classList.add("dark-svg-figure-color");
-        document.querySelector(".coord").classList.add("dark-coord");
-        document.querySelectorAll("line").forEach(line => line.classList.add("dark-svg-line-color"));
-        document.querySelectorAll("text").forEach(text => text.classList.add("dark-svg-text"));
-        document.querySelectorAll("polygon").forEach(polygon => polygon.classList.add("dark-svg-figure-color"));
     }
 
     document.querySelectorAll('input[name="rCheckBox"]').forEach(x => x.addEventListener("change", (function () {
@@ -93,11 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#changeColor').addEventListener('click', function (e) {
         e.preventDefault();
         if (document.querySelector("body").classList.contains('dark-body')) {
-            makeLight();
-            sendRequest("color", "false");
+            //makeLight();
+            sendRequest("color", "0");
         } else {
-            makeDark();
-            sendRequest("color", "true");
+            //makeDark();
+            sendRequest("color", "1");
         }
     });
 
@@ -119,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 'x': param_x,
                 'y': param_y,
                 'r': param_r,
-                'time': timeZone.getTimezoneOffset()
             },
             success: function () {
                 window.location.href = '/docker-dir/index.jsp';

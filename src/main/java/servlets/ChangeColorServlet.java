@@ -18,10 +18,11 @@ public class ChangeColorServlet extends HttpServlet {
         HttpSession session = req.getSession();
         ArrayList<Boolean> arrayList;
         if (session.getAttribute("color") != null) {
-            System.out.println(req.getAttribute("args"));
             arrayList = (ArrayList<Boolean>) session.getAttribute("color");
         } else arrayList = new ArrayList<>();
-        arrayList.add(Boolean.getBoolean(String.valueOf(req.getAttribute("args"))));
+        if (Integer.parseInt(String.valueOf(req.getParameter("args"))) == 1) {
+            arrayList.add(true);
+        } else arrayList.add(false);
         session.setAttribute("color", arrayList);
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }

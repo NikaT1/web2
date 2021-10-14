@@ -34,7 +34,6 @@ public class AreaCheckServlet extends HttpServlet {
         String param_x = req.getParameter("x").replace(",", ".");
         String param_y = req.getParameter("y").replace(",", ".");
         String param_r = req.getParameter("r").replace(",", ".");
-        String timeZone = req.getParameter("time");
         if (checkAll(param_x, param_y, param_r)) {
             isValid = true;
             x = Double.parseDouble(param_x);
